@@ -1,8 +1,7 @@
-
 # Create Security Group
 resource "aws_security_group" "secgrp" {
-  name_prefix = "default-"
-  vpc_id      = aws_vpc.henryvpc.id
+  name = "default-"
+  vpc_id      = var.vpc_id
 
 # To Allow SSH Transport
   ingress {
@@ -35,13 +34,52 @@ resource "aws_security_group" "secgrp" {
   }
 }
 
+
+##################################################################
+# Create security group for the application load balancer
+# terraform aws create security group
+  resource "aws_security_group" "alb_sec_grp" {
+  name = "alb security group"
+  description =  "Enable http/https access on port 80 and 443"
+  vpc_id      = var.vpc_id
+
+# To Create https access port and ip
+  ingress {
+    from_port      = 80
+    to_port        = 80
+    protocol       = "tcp"
+    cidr_blocks    = ["0.0.0.0/0"] 
+  }
+
+# create https access port and ip
+ingress {
+    from_port      = 443
+    to_port        = 443
+    protocol       = "tcp"
+    cidr_blocks    = ["0.0.0.0/0"] 
+  }
+
+  egress {
+    from_port      = 0
+    to_port        = 0
+    protocol       = "-1"
+    cidr_blocks    = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    name           = "alb security group"
+  }
+} 
+
+
+
 ##################################################################
 # Create security group for the bastion host 
 # terraform aws create security group
   resource "aws_security_group" "ssh-secgrp" {
   name_prefix = "ssh access"
   description =  "Enable SSH on port 22"
-  vpc_id      = aws_vpc.henryvpc.id
+  vpc_id      = var.vpc_id
 
 # To Create bastion security group with access ip
   ingress {
@@ -62,9 +100,9 @@ resource "aws_security_group" "secgrp" {
 ####################################################################
 
 resource "aws_security_group" "webserver-secgrp" {
-  name_prefix = "webserver-security-group"
+  name = "webserver-security-group"
   description =  "Enable http and SSH on port 80 and port 22 via ssh grp"
-  vpc_id      = aws_vpc.henryvpc.id
+  vpc_id      = var.vpc_id
 
 #  To Allow HTTP Transport into the ssh-grp
   ingress {
@@ -114,8 +152,3 @@ resource "aws_security_group" "rds_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
-
-######################################################################################################
-######################################################################################################
-
-

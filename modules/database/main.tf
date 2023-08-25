@@ -1,16 +1,16 @@
 # Create the MySQL RDS database instance
 resource "aws_db_instance" "mysql_instance" {
-  engine                  = "mysql"
-  engine_version          = "8.0.32"
-  instance_class          = "db.t2.micro"
-  allocated_storage       = 200
-  storage_type            = "gp3"
+  engine                  = var.engine 
+  engine_version          = var.engine_version  
+  instance_class          = var.instance_type
+  allocated_storage       = var.storage
+  storage_type            = var.storage_type
   availability_zone       = "us-east-1a"
   db_name                 = var.db_name
   username                = var.db_username
-  password                = "Admin123b"
+  password                = var.db_password
   port                    = 3306
-  multi_az                = false
+  multi_az                = var.multi_az
   publicly_accessible     = true
   skip_final_snapshot     = true
   db_subnet_group_name    = aws_db_subnet_group.subnetdb.id
@@ -22,10 +22,10 @@ resource "aws_db_instance" "mysql_instance" {
 }
 
 resource "aws_db_subnet_group" "subnetdb" {
-  name       = "henrysubnetdb"
-  subnet_ids = [aws_subnet.privatesubnet3.id , aws_subnet.privatesubnet4.id]
+  name       = "subnetdb"
+  subnet_ids = [var.privatesubnet1 , var.privatesubnet2]
 
    tags = {
-     Name = "testDbsubnet"
+     Name = "${var.henryproject}-Dbsubnet"
   }
 }

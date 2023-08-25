@@ -1,54 +1,54 @@
 # Create VPC
 resource "aws_vpc" "henryvpc" {
-  cidr_block = "10.0.0.0/16"
+  cidr_block = var.vpc_cidr
   enable_dns_hostnames = true
   tags = {
-    name = "testvpc"
+    name = "${var.henryproject}-vpc"
   }
 }
 
 # Create Subnet
 resource "aws_subnet" "publicsubnet" {
   vpc_id     = aws_vpc.henryvpc.id
-  cidr_block = "10.0.1.0/24"
+  cidr_block = var.public_bastionsubnet1
   availability_zone = "us-east-1a"
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "test public subnet 1"
+    Name = "${var.henryproject}-subnet"
   }
 }
 
 resource "aws_subnet" "publicsubnet2" {
   vpc_id     = aws_vpc.henryvpc.id
-  cidr_block = "10.0.30.0/24"
+  cidr_block = var.publicsubnet2
   availability_zone = "us-east-1b"
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "test public subnet 2"
+    Name = "${var.henryproject}-subnet2"
   }
 }
 
-resource "aws_subnet" "privatesubnet3" {
+resource "aws_subnet" "privatesubnet1" {
   vpc_id     = aws_vpc.henryvpc.id
-  cidr_block = "10.0.50.0/24"
+  cidr_block = var.privatesubnet1
   availability_zone = "us-east-1a"
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "test private subnet database tier"
+    Name = "${var.henryproject}-database-tier1"
   }
 }
 
-resource "aws_subnet" "privatesubnet4" {
+resource "aws_subnet" "privatesubnet2" {
   vpc_id     = aws_vpc.henryvpc.id
-  cidr_block = "10.0.144.0/24"
+  cidr_block = var.privatesubnet2
   availability_zone = "us-east-1b"
   map_public_ip_on_launch = false
 
   tags = {
-    Name = "private subnet database tier"
+    Name = "${var.henryproject}-database-tier2"
   }
 }
 
@@ -57,7 +57,7 @@ resource "aws_internet_gateway" "publicig" {
   vpc_id = aws_vpc.henryvpc.id
 
   tags = {
-    Name = "test"
+    Name = "${var.henryproject}-igw"
   }
 }
 
@@ -71,7 +71,7 @@ route {
   }
 
   tags = {
-    Name = "testroutetable"
+    Name = "${var.henryproject}-routetable"
   }
 }
 
