@@ -1,24 +1,9 @@
-variable "vpc_id" { 
-    type = string
-    description = "henryvpc"
-}
+variable "subnet_id" {}
 
-variable "subnet_id" {
-    type = string
-    description = "publicsubnet"
-}
+variable "webserver-secgrp" { }
 
-variable "ami_id" {
-    type = string
-    description = "ami-0889a44b331db0194"
-}
+variable "ami_id" { }
 
-variable "instance_type" {
-    type = string
-    description = "t2.micro"
-}
+variable "instance_type" {}
 
-variable "vpc_security_group_ids" {
-    type = string
-    description = ""
-}
+variable "key_name" { }

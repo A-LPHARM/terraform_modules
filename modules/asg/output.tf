@@ -3,7 +3,7 @@ output "autoscaling_group_name" {
   value       = aws_autoscaling_group.asg.name
 }
 
-output "launch_configuration_name" {
+output "aws_launch_name" {
   description = "The name of the created Launch Configuration."
-  value       = aws_launch_configuration.asg_lc.name
+  value       =  aws_launch_template.asg_launch_template.name
 }

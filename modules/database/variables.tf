@@ -1,53 +1,25 @@
-variable "instance_type" {
-  description = "db.t2.micro"
-}
+variable "engine" { }
 
-variable "engine" {
-  description = "mysql"
-}
+variable "engine_version" { }
 
-variable "engine_version" {
-  description = "8.0.32"
-}
+variable "db_name" { }
 
-variable "db_name" {
-  description = "projt_database1"
-  type        = string
-}
+variable "db_username" { }
 
-variable "db_username" {
-  description = "Admin"
-  type        = string
-}
+variable "db_password" { }
 
-variable "db_password" {
-  description = "He5n4rypha7r2m6a5cy51ED"
-  type        = string
-}
+variable "storage" { }
 
-variable "storage" {
-  description = "RDS storage in GB"
-  default     = 200
-}
+variable "identifier" { }
 
-variable "storage_type" {
-  description = "RDS storage type"
-  default     = "gp3"
-}
+variable "storage_type" { }
 
-variable "privatesubnet1" {
-  description = "private subnet ids to launch RDS in"
-  default     = []
-}
+variable "privatesubnet1" { }
 
-variable "privatesubnet2" {
-  description = "private subnet ids to launch RDS in"
-  default     = []
-}
+variable "privatesubnet2" { }
 
-variable "multi_az" {
-  description = "create a standby db instance"
-  default = false
-}
+variable "henryproject" { }
 
-variable "henryproject" {}
+variable "rds_sg" { 
+    
+}

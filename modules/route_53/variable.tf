@@ -1,11 +1,7 @@
-variable "domain_name" {
- default       = "al-pharm.click"
- description   = "domain name"
- type          = string
-}
+ variable "domain_name" { }
 
-variable "sub_domain" {
- default       = "www"
- description   = "sub-domain"
- type          = string
-}
+ variable "sub_domain" { }
+
+ variable "application_loadbalancer" { }
+ 
+ variable "application_load_balancer_zone_id" { }

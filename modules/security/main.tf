@@ -5,6 +5,7 @@ resource "aws_security_group" "secgrp" {
 
 # To Allow SSH Transport
   ingress {
+    description   = "allow ssh access"
     from_port     = 22
     to_port       = 22
     protocol      = "tcp"
@@ -13,6 +14,7 @@ resource "aws_security_group" "secgrp" {
 
 # To Allow HTTP Transport
   ingress {
+    description   = "allow http access"
     from_port     = 80
     to_port       = 80
     protocol      = "tcp"
@@ -20,6 +22,7 @@ resource "aws_security_group" "secgrp" {
   }
 
   ingress {
+    description = "allow all traffic"
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
@@ -45,6 +48,7 @@ resource "aws_security_group" "secgrp" {
 
 # To Create https access port and ip
   ingress {
+    description    = "allow ssh access"
     from_port      = 80
     to_port        = 80
     protocol       = "tcp"
@@ -53,6 +57,7 @@ resource "aws_security_group" "secgrp" {
 
 # create https access port and ip
 ingress {
+    description    = "allow https access"
     from_port      = 443
     to_port        = 443
     protocol       = "tcp"
@@ -83,6 +88,7 @@ ingress {
 
 # To Create bastion security group with access ip
   ingress {
+    description    = "allow ssh access"
     from_port      = 22
     to_port        = 22
     protocol       = "tcp"
@@ -106,6 +112,7 @@ resource "aws_security_group" "webserver-secgrp" {
 
 #  To Allow HTTP Transport into the ssh-grp
   ingress {
+    description       = "allow http access"
     from_port         = 80
     to_port           = 80
     protocol          = "tcp"
@@ -114,6 +121,7 @@ resource "aws_security_group" "webserver-secgrp" {
 
 #  To Allow SSH Transport into the ssh-grp
   ingress {
+    description       = "allow ssh access"
     from_port         = 22
     to_port           = 22
     protocol          = "tcp"
@@ -136,13 +144,14 @@ resource "aws_security_group" "webserver-secgrp" {
 resource "aws_security_group" "rds_sg" {
   name        = "Database security group"
   description =  "enable MYSQL/AURORA access on port 3306"
-  vpc_id      = aws_vpc.henryvpc.id
+  vpc_id      = var.vpc_id
 
   ingress {
+    description = "Mysql access"
     from_port   = 3306
     to_port     = 3306
     protocol    = "tcp"
-    security_groups = ["${aws_security_group.webserver-secgrp.id}"] # Allow inbound traffic from bastion subnet
+    security_groups = [aws_security_group.webserver-secgrp.id] # Allow inbound traffic from bastion subnet
   }
 
   egress {
