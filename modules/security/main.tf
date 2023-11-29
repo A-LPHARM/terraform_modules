@@ -48,7 +48,7 @@ resource "aws_security_group" "secgrp" {
 
 # To Create https access port and ip
   ingress {
-    description    = "allow ssh access"
+    description    = "allow http access"
     from_port      = 80
     to_port        = 80
     protocol       = "tcp"

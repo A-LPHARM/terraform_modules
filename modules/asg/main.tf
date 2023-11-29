@@ -1,13 +1,3 @@
-# variable "aws_region" {}
-# variable "asg_name" {}
-# variable "launch_template_name" {}
-# variable "instance_type" {}
-# variable "subnet_ids" {}
-
-# provider "aws" { 
-#   region = var.aws_region
-# }
-
 resource "aws_launch_template" "asg_launch_template" {
   name                        = "${var.henryproject}-instance"
   image_id                    = var.ami_id # "ami-12345678"  Replace with the desired AMI ID
@@ -23,7 +13,8 @@ resource "aws_launch_template" "asg_launch_template" {
         tags = {
             Name = "${var.henryproject}-ec2instance"
         }
-  user_data = data.template_file.user_data.rendered
+  
+  user_data = "${base64encode(data.template_file.test.rendered)}" 
 
   lifecycle {
     create_before_destroy = true
@@ -51,6 +42,19 @@ resource "aws_autoscaling_group" "asg" {
   }
 }
 
-data "template_file" "user_data" {
-  template = filebase64("${path.module}./script.tpl")
+data "template_file" "test" {
+  template = <<EOF
+#!/bin/bash
+sudo yum install wget unzip httpd -y
+sudo mkdir -p /tmp/webfiles
+cd /tmp/webfiles
+sudo wget https://www.tooplate.com/zip-templates/2098_health.zip
+sudo unzip 2098_health
+sudo rm -rf 2098_health.zip
+cd 2098_health
+sudo cp -r * /var/www/html/
+sudo systemctl start httpd
+sudo systemctl enable httpd
+sudo rm -rf /tmp/webfiles
+EOF
 }

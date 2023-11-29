@@ -35,8 +35,6 @@ variable "storage" { }
 
 variable "storage_type" { }
 
-variable "user_data" {}
-
 variable "domain_name" { }
 
 variable "sub_domain"  { }

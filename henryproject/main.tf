@@ -6,7 +6,7 @@ provider "aws" {
 
 # create vpc
 module "vpc" {
-    source = "../modules/dynamodb-henry"
+    source = "../modules/vpc-henry"
     aws_region              = var.aws_region
     henryproject            = var.henryproject
     vpc_cidr                = var.vpc_cidr
@@ -26,7 +26,6 @@ module "application_load_balancer" {
   source = "../modules/alb"
   henryproject        = module.vpc.henryproject
   ec2_instances       = module.ec2.ec2_instances
-  ec2_instances2      = module.ec2.ec2_instances2
   alb_sec_grp         = module.security.alb_sec_grp
   publicsubnet        = module.vpc.publicsubnet
   publicsubnet2       = module.vpc.publicsubnet2

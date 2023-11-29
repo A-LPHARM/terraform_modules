@@ -20,6 +20,4 @@ variable "privatesubnet2" { }
 
 variable "henryproject" { }
 
-variable "rds_sg" { 
-    
-}
+variable "rds_sg" { }
